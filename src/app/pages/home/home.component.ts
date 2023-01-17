@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit {
   data:any[]=[];
   pokemons = [];
   nombre!:string;
+
   constructor(private router:Router,private route:ActivatedRoute ,private Pokedex:ServicepokemonsService) {
    }
   ngOnInit(): void {
@@ -33,7 +34,13 @@ export class HomeComponent implements OnInit {
             orden: res.order
           }
           this.data.push(pokemonInfo)
-          console.log(res);
+          // para ordenar de forma ascendente de A - Z
+           this.data.sort(function(a, b){
+            if(a.name < b.name) { return -1; }
+            if(a.name > b.name) { return 1; }
+            return 0;
+        })
+           console.log(this.data);
         },
         err => {
         }
@@ -42,6 +49,6 @@ export class HomeComponent implements OnInit {
   }
 
   buscar(n:string){
-    this.router.navigate(['/descripcion', n])
+    this.router.navigate(['/descripcion', n.toUpperCase()])/*Transforma cualquier texto a todo mayuscula*/ 
   }
 }
